@@ -61,13 +61,29 @@ async function userNOexistance(
   }
 }
 
-
-async function userexistance()
-{
-     
+async function userexistance(req: Request, res: Response, next: NextFunction) {
+  try {
+    const { email, phoneNumber } = req.body;
+    const user = await prisma.user.findMany({
+      where: {
+        AND: [{ email }, { phoneNumber }],
+      },
+    });
+    let id;
+    if (user.length === 0) {
+      const uncommon = await prisma.user.findMany({
+        where: {
+          OR: [{ email }, { phoneNumber }],
+        },
+      });
+    } else {
+    }
+  } catch (e) {
+    console.error();
+  }
 }
 
-router.post("/identify", userNOexistance,userexistance function(req, res) {
+router.post("/identify", userNOexistance, userexistance, function (req, res) {
   console.log("CONTROL REACHED TO THE MAIN ROUTER");
   res.send("hello man wts up");
 });
