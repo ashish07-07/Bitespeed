@@ -117,9 +117,66 @@ async function userexistance(req: Request, res: Response, next: NextFunction) {
 
         console.log(second);
 
+        const a = await prisma.user.findMany({
+          where: {
+            OR: [{ email }, { phoneNumber }],
+          },
+        });
+
+        console.log("this will be my response");
+
+        console.log(a);
+
+        const emailset = Array.from(
+          new Set(
+            a.map(function (val) {
+              return val.email;
+            })
+          )
+        );
+
+        console.log(emailset);
+
+        const secondarycuser = a.filter(function (val) {
+          return val.linkedPrecedence === "secondary";
+        });
+        console.log("printing the secondary users");
+        console.log(secondarycuser);
+
+        const primaryuser = a.filter(function (val) {
+          return val.linkedPrecedence === "primary";
+        });
+
+        console.log("primary id is");
+        console.log(primaryuser[0].id);
+
+        const uniquephonenumber = Array.from(
+          new Set(
+            a.map(function (val) {
+              return val.phoneNumber;
+            })
+          )
+        );
+
+        console.log(uniquephonenumber);
+
+        const secondaryid = Array.from(
+          new Set(
+            secondarycuser.map(function (val) {
+              return val.id;
+            })
+          )
+        );
+
+        console.log(secondaryid);
+
         return res.status(201).json({
-          msg: "success yar",
-          second,
+          contracts: {
+            primaryContatctId: primaryuser[0].id,
+            emails: emailset,
+            phoneNumbers: uniquephonenumber,
+            secondaryContactIds: secondaryid,
+          },
         });
       }
     } else {
