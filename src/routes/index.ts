@@ -21,8 +21,8 @@ async function userNOexistance(
       return res.status(400).json({ msg: "Email or phone number is required" });
     }
 
-    console.log(email);
-    console.log(number);
+    // console.log(email);
+    // console.log(number);
 
     const users = await prisma.user.findMany({
       where: {
@@ -63,20 +63,68 @@ async function userNOexistance(
 
 async function userexistance(req: Request, res: Response, next: NextFunction) {
   try {
-    const { email, phoneNumber } = req.body;
+    const body = req.body;
+    const email = body.email;
+    const phoneNumber = body.phonenumber;
+
+    console.log("came into 2nd middleware");
     const user = await prisma.user.findMany({
       where: {
         AND: [{ email }, { phoneNumber }],
       },
+      select: {
+        email: true,
+        phoneNumber: true,
+      },
     });
-    let id;
+    console.log("printing user");
+    console.log(user);
     if (user.length === 0) {
-      const uncommon = await prisma.user.findMany({
+      console.log("came indide the if now as ");
+      const priamaryyuser = await prisma.user.findMany({
         where: {
-          OR: [{ email }, { phoneNumber }],
+          linkedPrecedence: "primary",
+          AND: {
+            OR: [{ email }, { phoneNumber }],
+          },
+        },
+        select: {
+          id: true,
         },
       });
+      console.log("priamey user hey yaar");
+      console.log(priamaryyuser);
+      console.log("going to if check now");
+      if (priamaryyuser.length != 0) {
+        console.log("inside if check ");
+        console.log(phoneNumber);
+        let id = priamaryyuser[0].id;
+        console.log(`id hay an bhai ${id}`);
+
+        const second = await prisma.user.create({
+          data: {
+            phoneNumber,
+            email,
+            linkedId: id,
+            linkedPrecedence: "secondary",
+          },
+          select: {
+            phoneNumber: true,
+            email: true,
+            id: true,
+          },
+        });
+
+        console.log(second);
+
+        return res.status(201).json({
+          msg: "success yar",
+          second,
+        });
+      }
     } else {
+      console.log("are nahi hua secondaty");
+      next();
     }
   } catch (e) {
     console.error();

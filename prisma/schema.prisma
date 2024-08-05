@@ -18,8 +18,8 @@ model user{
   
 
     id Int @id @default(autoincrement())
-    phoneNumber String? @unique 
-    email String? @unique
+    phoneNumber String? 
+    email String? 
     linkedId Int?
     linkedPrecedence String
     createdAt DateTime @default(now())

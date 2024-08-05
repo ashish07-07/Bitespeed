@@ -23,8 +23,8 @@ function userNOexistance(req, res, next) {
             if (!email && !number) {
                 return res.status(400).json({ msg: "Email or phone number is required" });
             }
-            console.log(email);
-            console.log(number);
+            // console.log(email);
+            // console.log(number);
             const users = yield db_1.default.user.findMany({
                 where: {
                     OR: [{ email }, { phoneNumber: number }],
@@ -65,24 +65,65 @@ function userNOexistance(req, res, next) {
 function userexistance(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { email, phoneNumber } = req.body;
+            const body = req.body;
+            const email = body.email;
+            const phoneNumber = body.phonenumber;
+            console.log("came into 2nd middleware");
             const user = yield db_1.default.user.findMany({
                 where: {
                     AND: [{ email }, { phoneNumber }],
                 },
+                select: {
+                    email: true,
+                    phoneNumber: true,
+                },
             });
-            if (user) {
-                console.log(user);
-                console.log("user already exist ");
-                user.map(function (val) {
-                    console.log(val.id);
+            console.log("printing user");
+            console.log(user);
+            if (user.length === 0) {
+                console.log("came indide the if now as ");
+                const priamaryyuser = yield db_1.default.user.findMany({
+                    where: {
+                        linkedPrecedence: "primary",
+                        AND: {
+                            OR: [{ email }, { phoneNumber }],
+                        },
+                    },
+                    select: {
+                        id: true,
+                    },
                 });
-                return res.status(203).json({
-                    msg: "already exist",
-                    user,
-                });
+                console.log("priamey user hey yaar");
+                console.log(priamaryyuser);
+                console.log("going to if check now");
+                if (priamaryyuser.length != 0) {
+                    console.log("inside if check ");
+                    console.log(phoneNumber);
+                    let id = priamaryyuser[0].id;
+                    console.log(`id hay an bhai ${id}`);
+                    const second = yield db_1.default.user.create({
+                        data: {
+                            phoneNumber,
+                            email,
+                            linkedId: id,
+                            linkedPrecedence: "secondary",
+                        },
+                        select: {
+                            phoneNumber: true,
+                            email: true,
+                            id: true,
+                        },
+                    });
+                    console.log(second);
+                    return res.status(201).json({
+                        msg: "success yar",
+                        second,
+                    });
+                }
             }
             else {
+                console.log("are nahi hua secondaty");
+                next();
             }
         }
         catch (e) {
