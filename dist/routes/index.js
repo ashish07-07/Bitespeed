@@ -76,10 +76,8 @@ function userexistance(req, res, next) {
                     phoneNumber: true,
                 },
             });
-            console.log("printing user");
             console.log(user);
             if (user.length === 0) {
-                console.log("came indide the if now as ");
                 const priamaryyuser = yield db_1.default.user.findMany({
                     where: {
                         linkedPrecedence: "primary",
@@ -91,14 +89,12 @@ function userexistance(req, res, next) {
                         id: true,
                     },
                 });
-                console.log("priamey user hey yaar");
+                console.log("priamey user details ");
                 console.log(priamaryyuser);
-                console.log("going to if check now");
                 if (priamaryyuser.length != 0) {
-                    console.log("inside if check ");
                     console.log(phoneNumber);
                     let id = priamaryyuser[0].id;
-                    console.log(`id hay an bhai ${id}`);
+                    console.log(`id is  ${id}`);
                     const second = yield db_1.default.user.create({
                         data: {
                             phoneNumber,
@@ -118,7 +114,6 @@ function userexistance(req, res, next) {
                             OR: [{ email }, { phoneNumber }],
                         },
                     });
-                    console.log("this will be my response");
                     console.log(a);
                     const emailset = Array.from(new Set(a.map(function (val) {
                         return val.email;
@@ -127,7 +122,7 @@ function userexistance(req, res, next) {
                     const secondarycuser = a.filter(function (val) {
                         return val.linkedPrecedence === "secondary";
                     });
-                    console.log("printing the secondary users");
+                    console.log(" secondary users");
                     console.log(secondarycuser);
                     const primaryuser = a.filter(function (val) {
                         return val.linkedPrecedence === "primary";
@@ -153,7 +148,7 @@ function userexistance(req, res, next) {
                 }
             }
             else {
-                console.log("are nahi hua secondaty");
+                console.log("secondary user failed ");
                 next();
             }
         }
@@ -162,117 +157,13 @@ function userexistance(req, res, next) {
         }
     });
 }
-// async function botharepriamryuser(
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) {
-//   console.log("indide the update primary middleware");
-//   const body = req.body;
-//   const email = body.email;
-//   const phoneNumber = body.phoneNumber;
-//   const priamryemailuser = await prisma.user.findFirst({
-//     where: {
-//       email,
-//       linkedPrecedence: "primary",
-//     },
-//   });
-//   console.log("this is one primarty user");
-//   console.log(priamryemailuser);
-//   let id = priamryemailuser?.id;
-//   const primaryphonenumberuser = await prisma.user.findFirst({
-//     where: {
-//       linkedPrecedence: "primary",
-//       phoneNumber,
-//     },
-//   });
-//   console.log("this is phonenumber primary user");
-//   console.log(primaryphonenumberuser);
-//   console.log(primaryphonenumberuser?.id);
-//   if (priamryemailuser && primaryphonenumberuser) {
-//     console.log("came inside this");
-//     const update = await prisma.user.update({
-//       where: {
-//         id: primaryphonenumberuser.id,
-//       },
-//       data: {
-//         linkedId: priamryemailuser.id,
-//         linkedPrecedence: "secondary",
-//       },
-//     });
-//     console.log("updated successfully");
-//     console.log(update);
-//     // const a = await prisma.user.findMany({
-//     //   where: {
-//     //     // OR: [{ email }, { phoneNumber }],
-//     //     linkedId: priamryemailuser.id,
-//     //     OR: {
-//     //       AND: [{ id: priamryemailuser.id }, { linkedPrecedence: "primary" }],
-//     //     },
-//     //   },
-//     // });
-//     const a = await prisma.user.findMany({
-//       where: {
-//         linkedId: primaryphonenumberuser.id,
-//         OR: [
-//           {
-//             AND: [{ id: priamryemailuser.id }, { linkedPrecedence: "primary" }],
-//           },
-//         ],
-//       },
-//     });
-//     console.log("this is the both of usser");
-//     console.log(a);
-//     const primaryuser = a.filter(function (val) {
-//       return val.linkedPrecedence === "primary";
-//     });
-//     const id = primaryuser[0].id;
-//     const emailset = Array.from(
-//       new Set(
-//         a.map(function (val) {
-//           return val.createdAt;
-//         })
-//       )
-//     );
-//     console.log(emailset);
-//     const phonenumberset = Array.from(
-//       new Set(
-//         a.map(function (val) {
-//           return val.phoneNumber;
-//         })
-//       )
-//     );
-//     console.log(phonenumberset);
-//     const secondaruser = a.filter(function (val) {
-//       return val.linkedPrecedence === "secondary";
-//     });
-//     const secondaryid = Array.from(
-//       new Set(
-//         secondaruser.map(function (val) {
-//           return val.id;
-//         })
-//       )
-//     );
-//     return res.status(201).json({
-//       contracts: {
-//         primaryContatctId: id,
-//         emails: emailset,
-//         phoneNumbers: phonenumberset,
-//         secondaryContactIds: secondaryid,
-//       },
-//     });
-//   } else {
-//     console.log("both are not primary user ");
-//     next();
-//   }
-// }
 function botharepriamryuser(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log("inside the update primary middleware");
+        console.log("conrol reached to  primaryuser  middleware");
         const body = req.body;
         const email = body.email;
         const phoneNumber = body.phonenumber;
-        console.log("this is the phonenumber ");
+        console.log("phonenumber");
         console.log(phoneNumber);
         const priamryemailuser = yield db_1.default.user.findFirst({
             where: {
@@ -280,7 +171,7 @@ function botharepriamryuser(req, res, next) {
                 linkedPrecedence: "primary",
             },
         });
-        console.log("this is one primary user");
+        console.log("primary user with that partucular email ");
         console.log(priamryemailuser);
         const primaryphonenumberuser = yield db_1.default.user.findFirst({
             where: {
@@ -288,7 +179,7 @@ function botharepriamryuser(req, res, next) {
                 linkedPrecedence: "primary",
             },
         });
-        console.log("this is phone number primary user");
+        console.log("primary user with that particualr phonenumber");
         console.log(primaryphonenumberuser);
         if (priamryemailuser && primaryphonenumberuser) {
             console.log("came inside this");
@@ -301,14 +192,14 @@ function botharepriamryuser(req, res, next) {
                     linkedPrecedence: "secondary",
                 },
             });
-            console.log("updated successfully");
+            console.log("updated  the database successfully");
             console.log(update);
             const a = yield db_1.default.user.findMany({
                 where: {
                     OR: [{ email }, { phoneNumber }],
                 },
             });
-            console.log("this is the both of users");
+            console.log("users with email and password");
             console.log(a);
             const primaryuser = a.filter(function (val) {
                 return val.linkedPrecedence === "primary";
@@ -351,6 +242,6 @@ function botharepriamryuser(req, res, next) {
 }
 router.post("/identify", userNOexistance, botharepriamryuser, userexistance, function (req, res) {
     console.log("CONTROL REACHED TO THE MAIN ROUTER");
-    res.send("hello man wts up");
+    res.send("finished entering all the middlewares");
 });
 exports.default = router;
