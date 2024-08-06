@@ -23,8 +23,6 @@ function userNOexistance(req, res, next) {
             if (!email && !number) {
                 return res.status(400).json({ msg: "Email or phone number is required" });
             }
-            // console.log(email);
-            // console.log(number);
             const users = yield db_1.default.user.findMany({
                 where: {
                     OR: [{ email }, { phoneNumber: number }],
@@ -164,7 +162,194 @@ function userexistance(req, res, next) {
         }
     });
 }
-router.post("/identify", userNOexistance, userexistance, function (req, res) {
+// async function botharepriamryuser(
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ) {
+//   console.log("indide the update primary middleware");
+//   const body = req.body;
+//   const email = body.email;
+//   const phoneNumber = body.phoneNumber;
+//   const priamryemailuser = await prisma.user.findFirst({
+//     where: {
+//       email,
+//       linkedPrecedence: "primary",
+//     },
+//   });
+//   console.log("this is one primarty user");
+//   console.log(priamryemailuser);
+//   let id = priamryemailuser?.id;
+//   const primaryphonenumberuser = await prisma.user.findFirst({
+//     where: {
+//       linkedPrecedence: "primary",
+//       phoneNumber,
+//     },
+//   });
+//   console.log("this is phonenumber primary user");
+//   console.log(primaryphonenumberuser);
+//   console.log(primaryphonenumberuser?.id);
+//   if (priamryemailuser && primaryphonenumberuser) {
+//     console.log("came inside this");
+//     const update = await prisma.user.update({
+//       where: {
+//         id: primaryphonenumberuser.id,
+//       },
+//       data: {
+//         linkedId: priamryemailuser.id,
+//         linkedPrecedence: "secondary",
+//       },
+//     });
+//     console.log("updated successfully");
+//     console.log(update);
+//     // const a = await prisma.user.findMany({
+//     //   where: {
+//     //     // OR: [{ email }, { phoneNumber }],
+//     //     linkedId: priamryemailuser.id,
+//     //     OR: {
+//     //       AND: [{ id: priamryemailuser.id }, { linkedPrecedence: "primary" }],
+//     //     },
+//     //   },
+//     // });
+//     const a = await prisma.user.findMany({
+//       where: {
+//         linkedId: primaryphonenumberuser.id,
+//         OR: [
+//           {
+//             AND: [{ id: priamryemailuser.id }, { linkedPrecedence: "primary" }],
+//           },
+//         ],
+//       },
+//     });
+//     console.log("this is the both of usser");
+//     console.log(a);
+//     const primaryuser = a.filter(function (val) {
+//       return val.linkedPrecedence === "primary";
+//     });
+//     const id = primaryuser[0].id;
+//     const emailset = Array.from(
+//       new Set(
+//         a.map(function (val) {
+//           return val.createdAt;
+//         })
+//       )
+//     );
+//     console.log(emailset);
+//     const phonenumberset = Array.from(
+//       new Set(
+//         a.map(function (val) {
+//           return val.phoneNumber;
+//         })
+//       )
+//     );
+//     console.log(phonenumberset);
+//     const secondaruser = a.filter(function (val) {
+//       return val.linkedPrecedence === "secondary";
+//     });
+//     const secondaryid = Array.from(
+//       new Set(
+//         secondaruser.map(function (val) {
+//           return val.id;
+//         })
+//       )
+//     );
+//     return res.status(201).json({
+//       contracts: {
+//         primaryContatctId: id,
+//         emails: emailset,
+//         phoneNumbers: phonenumberset,
+//         secondaryContactIds: secondaryid,
+//       },
+//     });
+//   } else {
+//     console.log("both are not primary user ");
+//     next();
+//   }
+// }
+function botharepriamryuser(req, res, next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        console.log("inside the update primary middleware");
+        const body = req.body;
+        const email = body.email;
+        const phoneNumber = body.phonenumber;
+        console.log("this is the phonenumber ");
+        console.log(phoneNumber);
+        const priamryemailuser = yield db_1.default.user.findFirst({
+            where: {
+                email,
+                linkedPrecedence: "primary",
+            },
+        });
+        console.log("this is one primary user");
+        console.log(priamryemailuser);
+        const primaryphonenumberuser = yield db_1.default.user.findFirst({
+            where: {
+                phoneNumber,
+                linkedPrecedence: "primary",
+            },
+        });
+        console.log("this is phone number primary user");
+        console.log(primaryphonenumberuser);
+        if (priamryemailuser && primaryphonenumberuser) {
+            console.log("came inside this");
+            const update = yield db_1.default.user.update({
+                where: {
+                    id: primaryphonenumberuser.id,
+                },
+                data: {
+                    linkedId: priamryemailuser.id,
+                    linkedPrecedence: "secondary",
+                },
+            });
+            console.log("updated successfully");
+            console.log(update);
+            const a = yield db_1.default.user.findMany({
+                where: {
+                    OR: [{ email }, { phoneNumber }],
+                },
+            });
+            console.log("this is the both of users");
+            console.log(a);
+            const primaryuser = a.filter(function (val) {
+                return val.linkedPrecedence === "primary";
+            });
+            if (primaryuser.length === 0) {
+                console.error("No primary user found");
+                return res.status(500).json({
+                    error: "No primary user found",
+                });
+            }
+            const id = primaryuser[0].id;
+            const emailset = Array.from(new Set(a.map(function (val) {
+                return val.email;
+            })));
+            console.log(emailset);
+            const phonenumberset = Array.from(new Set(a.map(function (val) {
+                return val.phoneNumber;
+            })));
+            console.log(phonenumberset);
+            const secondaryuser = a.filter(function (val) {
+                return val.linkedPrecedence === "secondary";
+            });
+            const secondaryid = Array.from(new Set(secondaryuser.map(function (val) {
+                return val.id;
+            })));
+            return res.status(201).json({
+                contact: {
+                    primaryContactId: id,
+                    emails: emailset,
+                    phoneNumbers: phonenumberset,
+                    secondaryContactIds: secondaryid,
+                },
+            });
+        }
+        else {
+            console.log("both are not primary user");
+            next();
+        }
+    });
+}
+router.post("/identify", userNOexistance, botharepriamryuser, userexistance, function (req, res) {
     console.log("CONTROL REACHED TO THE MAIN ROUTER");
     res.send("hello man wts up");
 });
