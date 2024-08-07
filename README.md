@@ -95,6 +95,6 @@ when 2 existing primary user requests with one priamry email and priamry phonenu
 
 ![New users](./PUBLIC/image4.png)
 
-### Users 1 email and users2 phone number registers:
+### Users 1 email and users2 phone number requests:
 
 ![New users](./PUBLIC/image5.png)
