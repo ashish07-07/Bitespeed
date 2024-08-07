@@ -35,21 +35,22 @@ PostgreSQL database setup on Neon
 
 Clone the repository to your local machine using the following command:
 
-``````bash
+```bash
 
    git clone https://github.com/ashish07-07/Bitespeed.git
 
-``` -->
+```
+
 ## Install Dependencies
 
 Navigate to the project directory and install the required dependencies:
 
-`````bash
+```bash
 
 cd Bitespeed
 npm install
 
-``````
+```
 
 ## Set Up Environment Variables
 
