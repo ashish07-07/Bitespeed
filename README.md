@@ -25,7 +25,7 @@ This endpoint requires an email and phone number in the request body. You can te
 }
 ```
 
-<!-- Setting Up the Project Locally
+Setting Up the Project Locally
 
 Follow the steps below to set up and run the project locally:
 
@@ -86,33 +86,26 @@ The application is deployed on Google Cloud Run and can be accessed at:
 https://bitespeed-zkp4nbmxea-uc.a.run.app
 
 shell
-Copy code -->
+Copy code
 
 ## Endpoint to Test
 
 ### Identify User
 
-# POST https://bitespeed-zkp4nbmxea-uc.a.run.app/order/identify
+POST https://bitespeed-zkp4nbmxea-uc.a.run.app/order/identify
 
-# arduino
+arduino
+Copy code
+This endpoint requires an email and phone number in the request body. You can test this endpoint using Postman or any other API testing tool.
 
-# Copy code
+**Example Request Body:**
 
-# This endpoint requires an email and phone number in the request body. You can test this endpoint using Postman or any other API testing tool.
-
-# **Example Request Body:**
-
-# ```json
-
-# {
-
-# "email": "example@example.com",
-
-# "phonenumber": "1234567890"
-
-# }
-
-````
+```json
+{
+"email": "example@example.com",
+"phonenumber": "1234567890"
+}
+`````
 
 <!-- ## Setting Up the Project Locally
 
@@ -169,4 +162,3 @@ when 2 existing primary user requests with one priamry email and priamry phonenu
 ### Users 1 email and users2 phone number registers:
 
 ![New users](./PUBLIC/image5.png)
-````
