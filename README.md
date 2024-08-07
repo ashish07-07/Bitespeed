@@ -33,16 +33,13 @@ Prerequisites
 Node.js installed on your machine
 PostgreSQL database setup on Neon
 
-## Clone the Repository
-
 Clone the repository to your local machine using the following command:
 
-    ```
+``````bash
 
-git clone https://github.com/ashish07-07/Bitespeed.git
+   git clone https://github.com/ashish07-07/Bitespeed.git
 
-    ```
-
+``` -->
 ## Install Dependencies
 
 Navigate to the project directory and install the required dependencies:
@@ -52,15 +49,14 @@ Navigate to the project directory and install the required dependencies:
 cd Bitespeed
 npm install
 
-  ```
-
+``````
 
 ## Set Up Environment Variables
+
 Create a .env file in the root directory and add the following environment variables. Replace the placeholders with your actual PostgreSQL URL and any other required configuration.
 
 DATABASE_URL=your_neon_postgresql_url
 PORT=3000
-
 
 ## Initialize Prisma
 
@@ -105,7 +101,7 @@ This endpoint requires an email and phone number in the request body. You can te
 "email": "example@example.com",
 "phonenumber": "1234567890"
 }
-`````
+````
 
 <!-- ## Setting Up the Project Locally
 
