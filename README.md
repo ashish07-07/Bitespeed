@@ -139,7 +139,7 @@ Clone the repository to your local machine using the following command:
 
 ![New users](./PUBLIC/image.jpg)
 
-### When existing user with with same primary email but diffeernt phonenumber Requests makes them a secondary users :
+### When existing user with with same primary email but different phonenumber Requests makes them a secondary users :
 
 ### Response:
 
