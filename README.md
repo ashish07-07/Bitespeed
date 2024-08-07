@@ -113,6 +113,6 @@ Clone the repository to your local machine using the following command:
 
 when 2 existing primary user requests with one priamry email and priamry phonenumber then one with the phonenumber is linked to priamry email and its linked
 
-![New users](./PUBLIC/image3.jpg)
-![New users](./PUBLIC/image4.jpg)
-![New users](./PUBLIC/image5.jpg)
+![New users](./PUBLIC/image3.png)
+![New users](./PUBLIC/image4.png)
+![New users](./PUBLIC/image5.png)
