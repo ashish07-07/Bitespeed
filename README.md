@@ -107,6 +107,7 @@ This endpoint requires an email and phone number in the request body. You can te
 }
 `````
 
+<!--
 ## Setting Up the Project Locally
 
 Follow the steps below to set up and run the project locally:
@@ -124,7 +125,7 @@ Clone the repository to your local machine using the following command:
 
    git clone https://github.com/ashish07-07/Bitespeed.git
 
-```
+``` -->
 
 ### When new users Requests:
 
