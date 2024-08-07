@@ -57,6 +57,7 @@ npm install
 Create a .env file in the root directory and add the following environment variables. Replace the placeholders with your actual PostgreSQL URL and any other required configuration.
 
 DATABASE_URL=your_neon_postgresql_url
+
 PORT=3000
 
 ## Initialize Prisma
