@@ -9,8 +9,10 @@ import mainrouter from "./routes/index";
 
 app.use("/order", mainrouter);
 
+app.get("*", (req, res) => {
+  res.status(404).send("Not Found");
+});
+
 app.listen(PORT, function () {
   console.log(`server listening on port ${PORT}`);
 });
-
-// app.use("/order", mainrouter);
