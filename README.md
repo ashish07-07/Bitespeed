@@ -82,8 +82,8 @@ Clone the repository to your local machine using the following command:
 
 ```
 
-````bash
+```bash
 
-   ```git clone https://github.com/ashish07-07/Bitespeed.git
+   git clone https://github.com/ashish07-07/Bitespeed.git
 
-````
+```
